@@ -1,0 +1,46 @@
+name: Next Js CI Checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x, 23.x, 24.x] # Add the Node.js versions you want to test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+     - name: set up node js {{matrix.node-version}}
+       uses: actions/setup-node@v2
+       with:
+         node-version: ${{ matrix.node-version }}
+         cache: 'npm'
+      
+      - name: install bun 
+        run : |
+          npm install -g bun
+
+      - name: Set up Bun
+        run: |
+          bun --version
+
+      - name: Install dependencies
+        run: |
+          bun install
+
+      - name: Check Build 
+        run: |
+          bun run build
+        env:
+          NODE_ENV: production
+          BUN_INSTALL: /home/runner/.bun
