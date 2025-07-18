@@ -14,17 +14,17 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [22.x, 23.x, 24.x] # Add the Node.js versions you want to test
+        node-version: [22.x, 23.x, 24.x] 
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-     - name: set up node js {{matrix.node-version}}
-       uses: actions/setup-node@v2
-       with:
-         node-version: ${{ matrix.node-version }}
-         cache: 'npm'
+    - name: Set up Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
       
       - name: install bun 
         run : |
